@@ -649,6 +649,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
      */
     private int[] getTopAndBottomTranslations(int top, int bottom, int yDelta,
                                               boolean isExpanding) {
+
         int yTranslateTop = 0;
         int yTranslateBottom = yDelta;
 
@@ -660,7 +661,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
             if (isOverTop) {
                 yTranslateTop = top;
                 yTranslateBottom = yDelta - yTranslateTop;
-            } else if (isBelowBottom){
+            } else if (isBelowBottom) {
                 int deltaBelow = top + height + yDelta - getHeight();
                 yTranslateTop = top - deltaBelow < 0 ? top : deltaBelow;
                 yTranslateBottom = yDelta - yTranslateTop;
@@ -669,22 +670,27 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
             int offset = computeVerticalScrollOffset();
             int range = computeVerticalScrollRange();
             int extent = computeVerticalScrollExtent();
-            int leftoverExtent = range-offset - extent;
+            int leftoverExtent = range - offset - extent;
+            // Fix negative leftover caused by items not filling the view
+            if (leftoverExtent < 0) {
+                leftoverExtent *= -1;
+            }
 
-            boolean isCollapsingBelowBottom = (yTranslateBottom > leftoverExtent);
+            boolean isCollapsingBelowBottom = (yTranslateTop + yTranslateBottom > range) ? false
+                    : (yTranslateBottom > leftoverExtent);
             boolean isCellCompletelyDisappearing = bottom - yTranslateBottom < 0;
-            boolean isExtentBeyondRange = leftoverExtent < 0; //fix
 
-            if (isCollapsingBelowBottom && !isExtentBeyondRange) {
+            if (isCollapsingBelowBottom) {
                 yTranslateTop = yTranslateBottom - leftoverExtent;
+                // Force the view not shift the top bound when it is visible
+                yTranslateTop = yTranslateTop < range ? 0 : yTranslateTop;
                 yTranslateBottom = yDelta - yTranslateTop;
             } else if (isCellCompletelyDisappearing) {
                 yTranslateBottom = bottom;
                 yTranslateTop = yDelta - yTranslateBottom;
             }
         }
-
-        return new int[] {yTranslateTop, yTranslateBottom};
+        return new int[]{yTranslateTop, yTranslateBottom};
     }
 
 
