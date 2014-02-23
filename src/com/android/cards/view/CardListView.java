@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -274,9 +275,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View v = getChildAt(i);
-            if (Build.VERSION.SDK_INT >= 16){
-                v.setHasTransientState(true);
-            }
+            ViewCompat.setHasTransientState(v, true);
             oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
         }
 
@@ -376,10 +375,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
                             int delta = i > index ? yTranslateBottom : -yTranslateTop;
                             animations.add(getAnimation(v, delta, delta));
                         }
-                        if (Build.VERSION.SDK_INT >= 16){
-                            //I should use ViewCompat.setHasTransientState(v,false);
-                            v.setHasTransientState(false);
-                        }
+                        ViewCompat.setHasTransientState(v, false);
                     }
                 }
 
@@ -406,9 +402,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
                         setClickable(true);
                         if (mViewsToDraw.size() > 0) {
                             for (View v : mViewsToDraw) {
-                                if (Build.VERSION.SDK_INT >= 16){
-                                    v.setHasTransientState(false);
-                                }
+                                ViewCompat.setHasTransientState(v, false);
                             }
                         }
                         mViewsToDraw.clear();
@@ -462,9 +456,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View v = getChildAt(i);
-            if (Build.VERSION.SDK_INT >= 16){
-                v.setHasTransientState(true);
-            }
+            ViewCompat.setHasTransientState(v, true);
             oldCoordinates.put(v, new int [] {v.getTop(), v.getBottom()});
         }
 
@@ -541,9 +533,7 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
                         * after the collapse then the bounds are reset to their old values.*/
                         v.setTop(old[0]);
                         v.setBottom(old[1]);
-                        if (Build.VERSION.SDK_INT >= 16){
-                            v.setHasTransientState(false);
-                        }
+                        ViewCompat.setHasTransientState(v, false);
                     } else {
                         /* If the cell is present in the ListView after the collapse but
                          * not before the collapse then the bounds are calculated using
