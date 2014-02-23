@@ -650,10 +650,17 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
     private int[] getTopAndBottomTranslations(int top, int bottom, int yDelta,
                                               boolean isExpanding) {
 
-        int yTranslateTop = 0;
-        int yTranslateBottom = yDelta;
-
+        int yTranslateTop;
+        int yTranslateBottom;
         int height = bottom - top;
+
+        if (isStackFromBottom()) {
+            yTranslateTop = yDelta;
+            yTranslateBottom = 0;
+        } else {
+            yTranslateTop = 0;
+            yTranslateBottom = yDelta;
+        }
 
         if (isExpanding) {
             boolean isOverTop = top < 0;
