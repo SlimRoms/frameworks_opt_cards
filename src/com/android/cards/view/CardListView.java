@@ -254,18 +254,16 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
     //--------------------------------------------------------------------------
 
     @Override
-    public void onExpandStart(CardView viewCard,View expandingLayout) {
-        prepareExpandView(viewCard,expandingLayout);
+    public void onExpandStart(CardView viewCard, View expandingLayout) {
+        prepareExpandView(viewCard, expandingLayout);
     }
 
     @Override
-    public void onCollapseStart(CardView viewCard,View expandingLayout) {
-        prepareCollapseView(viewCard,expandingLayout);
+    public void onCollapseStart(CardView viewCard, View expandingLayout) {
+        prepareCollapseView(viewCard, expandingLayout);
     }
 
-    private void prepareExpandView(final CardView view,final View expandingLayout) {
-        final Card card = (Card)getItemAtPosition(getPositionForView
-                (view));
+    private void prepareExpandView(final CardView view, final View expandingLayout) {
 
         /* Store the original top and bottom bounds of all the cells.*/
         final int oldTop = view.getTop();
@@ -415,8 +413,15 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
                         }
                         mViewsToDraw.clear();
 
-                        if (card.getOnExpandAnimatorEndListener()!=null)
+                        final Card card = (Card) getItemAtPosition(getPositionForView(view));
+                        if (card.getOnExpandAnimatorEndListener() != null) {
                             card.getOnExpandAnimatorEndListener().onExpandEnd(card);
+                        }
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        } else if (mCursorAdapter != null) {
+                            mCursorAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
                 s.start();
@@ -447,8 +452,6 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
      */
 
     private void prepareCollapseView(final CardView view,final View expandingLayout) {
-        final Card card = (Card)getItemAtPosition(getPositionForView
-                (view));
 
         /* Store the original top and bottom bounds of all the cells.*/
         final int oldTop = view.getTop();
@@ -604,8 +607,15 @@ public class CardListView extends ListView implements CardView.OnExpandListAnima
                         * should persist in an expanded state with the extra content visible.*/
                         expandingLayout.setAlpha(1);
 
-                        if (card.getOnCollapseAnimatorEndListener()!=null)
+                        final Card card = (Card) getItemAtPosition(getPositionForView(view));
+                        if (card.getOnCollapseAnimatorEndListener() != null) {
                             card.getOnCollapseAnimatorEndListener().onCollapseEnd(card);
+                        }
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        } else if (mCursorAdapter != null) {
+                            mCursorAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
                 s.start();
