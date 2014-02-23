@@ -431,12 +431,19 @@ public class CardThumbnailView extends FrameLayout implements CardViewInterface 
         return true;
     }
 
-    public static boolean cancelPotentialWork(CardThumbnail.CustomSource customSource, ImageView imageView) {
-        final BitmapWorkerCustomSourceTask bitmapWorkerTask = getBitmapWorkerCustomSourceTask(imageView);
+    public static boolean cancelPotentialWork(
+            CardThumbnail.CustomSource customSource, ImageView imageView) {
+
+        final BitmapWorkerCustomSourceTask bitmapWorkerTask =
+                getBitmapWorkerCustomSourceTask(imageView);
 
         if (bitmapWorkerTask != null) {
-            final CardThumbnail.CustomSource bitmapWorkerTaskCustomSource = bitmapWorkerTask.customSource;
-            if (!bitmapWorkerTaskCustomSource.getTag().equals(customSource.getTag())) {
+
+            final CardThumbnail.CustomSource bitmapWorkerTaskCustomSource =
+                    bitmapWorkerTask.customSource;
+
+            if (bitmapWorkerTaskCustomSource != null
+                    && !bitmapWorkerTaskCustomSource.getTag().equals(customSource.getTag())) {
                 // Cancel previous task
                 bitmapWorkerTask.cancel(true);
             } else {
