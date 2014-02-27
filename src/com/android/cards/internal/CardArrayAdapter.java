@@ -124,60 +124,70 @@ public class CardArrayAdapter extends BaseCardArrayAdapter implements UndoBarCon
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
-        CardView mCardView;
-        Card mCard;
+        ViewHolder holder;
 
-        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        //Retrieve card from items
-        mCard = (Card) getItem(position);
-        if (mCard != null) {
-
+        // Retrieve card from items
+        Card card = (Card) getItem(position);
+        if (card != null) {
             int layout = mRowLayoutId;
             boolean recycle = false;
 
-            //Inflate layout
+            // Inflate layout
             if (view == null) {
                 recycle = false;
-                view = mInflater.inflate(layout, parent, false);
+                LayoutInflater inflater =
+                        (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(layout, parent, false);
+
+                holder = new ViewHolder();
+                holder.cardView = (CardView) view.findViewById(R.id.list_cardId);
+                view.setTag(holder);
             } else {
                 recycle = true;
+                holder = (ViewHolder) view.getTag();
             }
 
-            //Setup card
-            mCardView = (CardView) view.findViewById(R.id.list_cardId);
-            if (mCardView != null) {
-                //It is important to set recycle value for inner layout elements
-                mCardView.setForceReplaceInnerLayout(Card.equalsInnerLayout(mCardView.getCard(),mCard));
+            // Setup card
+            CardView cardView = holder.cardView;
+            if (cardView != null) {
+                // It is important to set recycle value for inner layout elements
+                cardView.setForceReplaceInnerLayout(
+                        Card.equalsInnerLayout(cardView.getCard(), card));
 
-                //It is important to set recycle value for performance issue
-                mCardView.setRecycle(recycle);
+                // It is important to set recycle value for performance issue
+                cardView.setRecycle(recycle);
 
-                //Save original swipeable to prevent cardSwipeListener (listView requires another cardSwipeListener)
-                boolean origianlSwipeable = mCard.isSwipeable();
-                mCard.setSwipeable(false);
+                // Save original swipeable to prevent cardSwipeListener
+                // (listView requires another cardSwipeListener)
+                boolean origianlSwipeable = card.isSwipeable();
+                card.setSwipeable(false);
 
-                mCardView.setCard(mCard);
+                cardView.setCard(card);
 
-                //Set originalValue
-                mCard.setSwipeable(origianlSwipeable);
+                // Set originalValue
+                card.setSwipeable(origianlSwipeable);
 
-                //If card has an expandable button override animation
-                if ((mCard.getCardHeader() != null && mCard.getCardHeader().isButtonExpandVisible()) || mCard.getViewToClickToExpand()!=null ){
-                    setupExpandCollapseListAnimation(mCardView);
+                // If card has an expandable button override animation
+                if ((card.getCardHeader() != null
+                        && card.getCardHeader().isButtonExpandVisible())
+                        || card.getViewToClickToExpand() != null) {
+                    setupExpandCollapseListAnimation(cardView);
                 }
 
-                //Setup swipeable animation
-                setupSwipeableAnimation(mCard, mCardView);
+                // Setup swipeable animation
+                setupSwipeableAnimation(card, cardView);
 
                 //setupMultiChoice
-                setupMultichoice(view,mCard,mCardView,position);
+                setupMultichoice(view, card, cardView, position);
             }
         }
 
         return view;
     }
 
+    static class ViewHolder {
+        CardView cardView;
+    }
 
 
     /**
