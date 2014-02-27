@@ -367,20 +367,35 @@ public class CardHeader extends BaseCard {
      * This method sets values to header elements and customizes view.
      *
      * Override this method to set your elements inside InnerView.
+     * If you use listviews it is recommend to user a Viewholder like here.
      *
      * @param parent  parent view (Inner Frame)
      * @param view   Inner View
      */
     @Override
-    public void setupInnerViewElements(ViewGroup parent,View view){
+    public void setupInnerViewElements(ViewGroup parent, View view) {
 
-        //Add simple title to header
-        if (view!=null){
-            TextView mTitleView=(TextView) view.findViewById(R.id.card_header_inner_simple_title);
-            if (mTitleView!=null)
-                mTitleView.setText(mTitle);
+        // Add simple title to header
+        if (view != null) {
+            ViewHolder holder;
+            holder = (ViewHolder) view.getTag();
+
+            if (holder == null) {
+                holder = new ViewHolder();
+                holder.titleView =
+                        (TextView) view.findViewById(R.id.card_header_inner_simple_title);
+                view.setTag(holder);
+            }
+
+            if (holder.titleView != null) {
+                holder.titleView.setText(mTitle);
+            }
         }
 
+    }
+
+    static class ViewHolder {
+        TextView titleView;
     }
 
     // -------------------------------------------------------------

@@ -145,6 +145,7 @@ public class CardExpand extends BaseCard {
      * This method sets values to expand elements and customizes view.
      *
      * Override this method to customize your Expand View
+     * If you use listviews it is recommend to user a Viewholder like here.
      *
      * @param parent  Expand external Layout
      * @param view  inner-expand view
@@ -152,12 +153,25 @@ public class CardExpand extends BaseCard {
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
-        //Add simple title to expand area
-        if (view!=null){
-            TextView mTitleView=(TextView) view.findViewById(R.id.card_expand_inner_simple_title);
-            if (mTitleView!=null)
-                mTitleView.setText(mTitle);
+        // Add simple title to expand area
+        if (view != null) {
+            ViewHolder holder;
+            holder = (ViewHolder) view.getTag();
+
+            if (holder == null) {
+                holder = new ViewHolder();
+                holder.titleView =
+                        (TextView) view.findViewById(R.id.card_expand_inner_simple_title);
+                view.setTag(holder);
+            }
+            if (holder.titleView != null) {
+                holder.titleView.setText(mTitle);
+            }
         }
+
     }
 
+    static class ViewHolder {
+        TextView titleView;
+    }
 }
