@@ -25,46 +25,46 @@
 
     <!-- Main -->
     <dimen name="card_main_layout_view_margin_top">0dp</dimen>
-    <dimen name="card_main_layout_view_margin_left">0dp</dimen>
+    <dimen name="card_main_layout_view_margin_start">0dp</dimen>
     <dimen name="card_main_layout_view_margin_bottom">0dp</dimen>
-    <dimen name="card_main_layout_view_margin_right">0dp</dimen>
+    <dimen name="card_main_layout_view_margin_end">0dp</dimen>
 
     <!-- Header -->
     <dimen name="card_header_outer_view_margin_top">0dp</dimen>
-    <dimen name="card_header_outer_view_margin_left">0dp</dimen>
+    <dimen name="card_header_outer_view_margin_start">0dp</dimen>
     <dimen name="card_header_outer_view_margin_bottom">0dp</dimen>
-    <dimen name="card_header_outer_view_margin_right">0dp</dimen>
+    <dimen name="card_header_outer_view_margin_end">0dp</dimen>
 
     <!--Button Header -->
-    <dimen name="card_header_button_padding_left">10dp</dimen>
-    <dimen name="card_header_button_padding_right">0dp</dimen>
+    <dimen name="card_header_button_padding_start">10dp</dimen>
+    <dimen name="card_header_button_padding_end">0dp</dimen>
     <dimen name="card_header_button_padding_bottom">0dp</dimen>
     <dimen name="card_header_button_padding_top">0dp</dimen>
-    <dimen name="card_header_button_margin_right">2dp</dimen>
-    <dimen name="card_header_button_overflow_margin_right">3dp</dimen>
+    <dimen name="card_header_button_margin_end">2dp</dimen>
+    <dimen name="card_header_button_overflow_margin_end">3dp</dimen>
 
     <!-- Title Header -->
-    <dimen name="card_header_simple_title_margin_left">10dp</dimen>
+    <dimen name="card_header_simple_title_margin_start">10dp</dimen>
     <dimen name="card_header_simple_title_margin_top">5dp</dimen>
     <dimen name="card_header_simple_title_text_size">20sp</dimen>
-    <dimen name="card_header_simple_title_margin_right">20dp</dimen>
+    <dimen name="card_header_simple_title_margin_end">20dp</dimen>
     <dimen name="card_header_simple_title_margin_bottom">0dp</dimen>
 
     <!-- Content -->
     <dimen name="card_content_outer_view_margin_top">0dp</dimen>
-    <dimen name="card_content_outer_view_margin_left">0dp</dimen>
+    <dimen name="card_content_outer_view_margin_start">0dp</dimen>
     <dimen name="card_content_outer_view_margin_bottom">0dp</dimen>
-    <dimen name="card_content_outer_view_margin_right">0dp</dimen>
+    <dimen name="card_content_outer_view_margin_end">0dp</dimen>
 
-    <dimen name="card_main_simple_title_margin_left">5dp</dimen>
+    <dimen name="card_main_simple_title_margin_start">5dp</dimen>
     <dimen name="card_main_simple_title_margin_top">0dp</dimen>
 
     <!-- Shadow -->
     <dimen name="card_shadow_height">3dp</dimen>
     <dimen name="card_shadow_view_margin_top">0dp</dimen>
-    <dimen name="card_shadow_view_margin_left">@dimen/card_background_default_radius</dimen>
+    <dimen name="card_shadow_view_margin_start">@dimen/card_background_default_radius</dimen>
     <dimen name="card_shadow_view_margin_bottom">0dp</dimen>
-    <dimen name="card_shadow_view_margin_right">@dimen/card_background_default_radius</dimen>
+    <dimen name="card_shadow_view_margin_end">@dimen/card_background_default_radius</dimen>
 
     <!-- Thumbnail -->
     <dimen name="card_thumbnail_width">72dp</dimen>
@@ -72,20 +72,20 @@
 
     <!-- Expand -->
     <dimen name="card_expand_layout_padding">2dp</dimen>
-    <dimen name="card_expand_simple_title_paddingLeft">10dp</dimen>
-    <dimen name="card_expand_simple_title_paddingRight">10dp</dimen>
+    <dimen name="card_expand_simple_title_paddingStart">10dp</dimen>
+    <dimen name="card_expand_simple_title_paddingEnd">10dp</dimen>
     <dimen name="card_expand_simple_title_text_size">14sp</dimen>
 
 
     <!-- List -->
-    <dimen name="list_card_padding_left">8dp</dimen>
-    <dimen name="list_card_padding_right">8dp</dimen>
+    <dimen name="list_card_padding_start">8dp</dimen>
+    <dimen name="list_card_padding_end">8dp</dimen>
     <dimen name="list_card_padding_bottom">6dp</dimen>
     <dimen name="list_card_padding_top">2dp</dimen>
 
     <!-- Grid -->
-    <dimen name="grid_card_padding_left">2dp</dimen>
-    <dimen name="grid_card_padding_right">2dp</dimen>
+    <dimen name="grid_card_padding_start">2dp</dimen>
+    <dimen name="grid_card_padding_end">2dp</dimen>
     <dimen name="grid_card_padding_bottom">2dp</dimen>
     <dimen name="grid_card_padding_top">2dp</dimen>
 
