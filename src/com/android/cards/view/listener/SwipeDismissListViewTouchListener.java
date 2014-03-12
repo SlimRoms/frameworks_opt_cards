@@ -51,9 +51,10 @@ import com.android.cards.internal.Card;
  * handling list item clicks, etc.
  *
  * <p>After creating the listener, the caller should also call
- * {@link ListView#setOnScrollListener(AbsListView.OnScrollListener)}, passing
- * in the scroll listener returned by {@link #makeScrollListener()}. If a scroll listener is
- * already assigned, the caller should still pass scroll changes through to this listener. This will
+ * {@link ListView#setOnScrollListener(AbsListView.OnScrollListener)}, using a
+ * {@link it.gmariotti.cardslib.library.view.listener.SwipeOnScrollListener}.
+ *
+ * If a scroll listener is already assigned, the caller should still pass scroll changes through to this listener. This will
  * ensure that this {@link SwipeDismissListViewTouchListener} is paused during list view
  * scrolling.</p>
  *
@@ -161,6 +162,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
      *
      * @see SwipeDismissListViewTouchListener
      */
+    /*
     public AbsListView.OnScrollListener makeScrollListener() {
         return new AbsListView.OnScrollListener() {
             @Override
@@ -172,7 +174,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
             }
         };
-    }
+    }*/
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -184,6 +186,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN: {
                 if (mPaused) {
                     return false;
+                }
+
+                if (mSwiping){
+                    return true;
                 }
 
                 // TODO: ensure this is a finger, and set a flag
