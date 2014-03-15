@@ -130,6 +130,11 @@ public class Card extends BaseCard {
     protected HashMap<Integer, OnCardClickListener> mMultipleOnClickListener;
 
     /**
+     * Partial OnClickListener
+     */
+    protected HashMap<Integer, OnLongCardClickListener> mMultipleOnLongClickListener;
+
+    /**
      *  Global area
      *  It is used by partial click listener
      */
@@ -146,6 +151,12 @@ public class Card extends BaseCard {
      * It is used by partial click listener
      */
     public static final int CLICK_LISTENER_HEADER_VIEW = 2;
+
+    /**
+     * Expand Area
+     * It is used by partial click listener
+     */
+    public static final int CLICK_LISTENER_EXPAND_VIEW = 3;
 
     /**
      * Content Main area.
@@ -681,15 +692,19 @@ public class Card extends BaseCard {
 
     /**
      * Indicates if the card is long clickable
-     * If card hasn't a {@link OnLongCardClickListener} return <code>false</code> in any cases.
+     * If card hasn't a {@link OnLongCardClickListener}
+     * or any partial Listener return <code>true</code> in any cases.
      *
      * @return
      */
     public boolean isLongClickable() {
-        if (mOnLongClickListener == null) {
-            if (mIsLongClickable)
+        if (mIsLongClickable) {
+            if (mOnLongClickListener == null
+                    && (mMultipleOnLongClickListener == null
+                            || mMultipleOnLongClickListener.isEmpty())) {
                 Log.w(TAG, "LongClickable set to true without onLongClickListener");
-            return false;
+                return false;
+            }
         }
         return mIsLongClickable;
     }
@@ -759,6 +774,68 @@ public class Card extends BaseCard {
         if (mMultipleOnClickListener != null)
             return mMultipleOnClickListener;
         return mMultipleOnClickListener = new HashMap<Integer, OnCardClickListener>();
+    }
+
+    /**
+     * Adds a LongClickListener on a specific area
+     * </p>
+     * You can use one of these values:
+     * {@link Card#CLICK_LISTENER_ALL_VIEW}
+     * {@link Card#CLICK_LISTENER_HEADER_VIEW}
+     * {@link Card#CLICK_LISTENER_THUMBNAIL_VIEW}
+     * {@link Card#CLICK_LISTENER_CONTENT_VIEW}
+     *
+     * @param area
+     * @param onLongClickListener
+     */
+    public void addPartialOnLongClickListener(
+            int area, OnLongCardClickListener onLongClickListener) {
+
+        if (area < CLICK_LISTENER_ALL_VIEW && area > CLICK_LISTENER_CONTENT_VIEW) {
+            Log.w(TAG, "area value not valid in addPartialOnLongClickListner");
+        }
+
+        HashMap multipleOnLongClickListener = getMultipleOnLongClickListener();
+        if (onLongClickListener != null) {
+            multipleOnLongClickListener.put(area, onLongClickListener);
+            mIsLongClickable = true;
+        } else {
+            removePartialOnLongClickListener(area);
+        }
+    }
+
+    /**
+     * Remove LongClickListener from a specif area
+     * </p>
+     * You can use one of these values:
+     * {@link Card#CLICK_LISTENER_ALL_VIEW}
+     * {@link Card#CLICK_LISTENER_HEADER_VIEW}
+     * {@link Card#CLICK_LISTENER_THUMBNAIL_VIEW}
+     * {@link Card#CLICK_LISTENER_CONTENT_VIEW}
+     *
+     *
+     * @param area
+     */
+    public void removePartialOnLongClickListener(int area) {
+
+        HashMap multipleOnLongClickListener = getMultipleOnLongClickListener();
+        multipleOnLongClickListener.remove(area);
+
+        if (mOnLongClickListener == null && multipleOnLongClickListener.isEmpty()) {
+            mIsLongClickable = false;
+        }
+    }
+
+    /**
+     * Map for all partial listeners
+     *
+     * @return  a map with partial listeners
+     */
+    public HashMap<Integer, OnLongCardClickListener> getMultipleOnLongClickListener() {
+        if (mMultipleOnLongClickListener != null) {
+            return mMultipleOnLongClickListener;
+        }
+        return mMultipleOnLongClickListener = new HashMap<Integer, OnLongCardClickListener>();
     }
 
     /**

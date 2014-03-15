@@ -452,43 +452,21 @@ public class CardView extends BaseCardView {
     @SuppressLint("NewApi")
     protected void setupListeners(){
 
-        //Swipe listener
-        if (mCard.isSwipeable()){
-            this.setOnTouchListener(new SwipeDismissViewTouchListener(this, mCard,new SwipeDismissViewTouchListener.DismissCallbacks() {
-                @Override
-                public boolean canDismiss(Card card) {
-                    return card.isSwipeable();
-                }
+        // Swipe listener
+        addGlobalSwipeListener(this);
 
-                @Override
-                public void onDismiss(CardView cardView, Card card) {
-                    final ViewGroup vg = (ViewGroup)(cardView.getParent());
-                    if (vg!=null){
-                        vg.removeView(cardView);
-                        card.onSwipeCard();
-                    }
-                }
-            }));
-        }else{
-            this.setOnTouchListener(null);
-        }
+        // OnClick listeners and partial listener
 
-        //OnClick listeners and partial listener
-
-        //Reset Partial Listeners
+        // Reset Partial Listeners
         resetPartialListeners();
+
+        boolean hasPartialClickListener = false;
 
         if (mCard.isClickable()){
             //Set the onClickListener
             if(!mCard.isMultiChoiceEnabled()){
                 if (mCard.getOnClickListener() != null) {
-                    this.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mCard.getOnClickListener()!=null)
-                                mCard.getOnClickListener().onClick(mCard,v);
-                        }
-                    });
+                    addGlobalClickListener(this);
 
                     //Prevent multiple events
                     //if (!mCard.isSwipeable() && mCard.getOnSwipeListener() == null) {
@@ -498,7 +476,7 @@ public class CardView extends BaseCardView {
                 }else{
                     HashMap<Integer,Card.OnCardClickListener> mMultipleOnClickListner=mCard.getMultipleOnClickListener();
                     if (mMultipleOnClickListner!=null && !mMultipleOnClickListner.isEmpty()){
-
+                        hasPartialClickListener = true;
                         for (int key:mMultipleOnClickListner.keySet()){
                             View viewClickable= decodeAreaOnClickListener(key);
                             final Card.OnCardClickListener mListener=mMultipleOnClickListner.get(key);
@@ -533,18 +511,87 @@ public class CardView extends BaseCardView {
             this.setClickable(false);
         }
 
-        //LongClick listener
-        if(mCard.isLongClickable()){
-            this.setOnLongClickListener(new OnLongClickListener() {
+        // LongClick and partial listeners.
+        if (mCard.isLongClickable()) {
+            if (mCard.getOnLongClickListener() != null) {
+                this.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (mCard.getOnLongClickListener()!=null)
+                            return mCard.getOnLongClickListener().onLongClick(mCard, v);
+                        return false;
+                    }
+                });
+            }
+            HashMap<Integer, Card.OnLongCardClickListener> multipleOnLongClickListner =
+                    mCard.getMultipleOnLongClickListener();
+            if (multipleOnLongClickListner != null && !multipleOnLongClickListner.isEmpty()) {
+
+                for (int key : multipleOnLongClickListner.keySet()) {
+                    View viewLongClickable = decodeAreaOnClickListener(key);
+                    final Card.OnLongCardClickListener listener =
+                            multipleOnLongClickListner.get(key);
+                    if (viewLongClickable != null) {
+                        //Add listener to this view
+                        viewLongClickable.setOnLongClickListener(new OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                //Callback to card listener
+                                if (listener != null) {
+                                    return listener.onLongClick(mCard, v);
+                                }
+                                return false;
+                            }
+                        });
+                        // We may have only partial longclicklistener. So add for each view
+                        // in this case the global click listener.
+                        // As well add for this view if available the swipe listener.
+                        addGlobalSwipeListener(viewLongClickable);
+                        if (!hasPartialClickListener) {
+                            addGlobalClickListener(viewLongClickable);
+                        }
+                    }
+                }
+            }
+        } else {
+            this.setLongClickable(false);
+        }
+    }
+
+    private void addGlobalClickListener(View view) {
+        if (mCard.isClickable() && !mCard.isMultiChoiceEnabled()
+                && mCard.getOnClickListener() != null) {
+            view.setOnClickListener(new OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
-                    if (mCard.getOnLongClickListener()!=null)
-                        return mCard.getOnLongClickListener().onLongClick(mCard,v);
-                    return false;
+                public void onClick(View v) {
+                   if (mCard.getOnClickListener() != null) {
+                       mCard.getOnClickListener().onClick(mCard, v);
+                   }
                 }
             });
-        }else{
-            this.setLongClickable(false);
+        }
+    }
+
+    private void addGlobalSwipeListener(View view) {
+        if (mCard.isSwipeable()) {
+            view.setOnTouchListener(new SwipeDismissViewTouchListener(this,
+                    mCard, new SwipeDismissViewTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Card card) {
+                    return card.isSwipeable();
+                }
+
+                @Override
+                public void onDismiss(CardView cardView, Card card) {
+                    final ViewGroup vg = (ViewGroup)(cardView.getParent());
+                    if (vg!=null){
+                        vg.removeView(cardView);
+                        card.onSwipeCard();
+                    }
+                }
+            }));
+        } else {
+            view.setOnTouchListener(null);
         }
     }
 
@@ -552,17 +599,26 @@ public class CardView extends BaseCardView {
      * Reset all partial listeners
      */
     protected void resetPartialListeners() {
-        View viewClickable= decodeAreaOnClickListener(Card.CLICK_LISTENER_HEADER_VIEW);
-        if (viewClickable!=null)
+        View viewClickable = decodeAreaOnClickListener(Card.CLICK_LISTENER_HEADER_VIEW);
+        if (viewClickable != null) {
             viewClickable.setClickable(false);
-
-        viewClickable= decodeAreaOnClickListener(Card.CLICK_LISTENER_THUMBNAIL_VIEW);
-        if (viewClickable!=null)
+            viewClickable.setLongClickable(false);
+        }
+        viewClickable = decodeAreaOnClickListener(Card.CLICK_LISTENER_THUMBNAIL_VIEW);
+        if (viewClickable != null) {
             viewClickable.setClickable(false);
-
-        viewClickable= decodeAreaOnClickListener(Card.CLICK_LISTENER_CONTENT_VIEW);
-        if (viewClickable!=null)
+            viewClickable.setLongClickable(false);
+        }
+        viewClickable = decodeAreaOnClickListener(Card.CLICK_LISTENER_CONTENT_VIEW);
+        if (viewClickable != null) {
             viewClickable.setClickable(false);
+            viewClickable.setLongClickable(false);
+        }
+        viewClickable = decodeAreaOnClickListener(Card.CLICK_LISTENER_EXPAND_VIEW);
+        if (viewClickable != null) {
+            viewClickable.setClickable(false);
+            viewClickable.setLongClickable(false);
+        }
     }
 
     /**
@@ -570,25 +626,29 @@ public class CardView extends BaseCardView {
      * @param area
      * @return
      */
-    protected View decodeAreaOnClickListener(int area){
+    public View decodeAreaOnClickListener(int area){
 
-        if (area<Card.CLICK_LISTENER_ALL_VIEW && area>Card.CLICK_LISTENER_CONTENT_VIEW)
+        if (area < Card.CLICK_LISTENER_ALL_VIEW && area > Card.CLICK_LISTENER_CONTENT_VIEW) {
             return null;
+        }
 
         View view = null;
 
         switch (area){
-            case Card.CLICK_LISTENER_ALL_VIEW :
-                view=this;
+            case Card.CLICK_LISTENER_ALL_VIEW:
+                view = this;
                 break;
-            case Card.CLICK_LISTENER_HEADER_VIEW :
-                view=mInternalHeaderLayout;
+            case Card.CLICK_LISTENER_HEADER_VIEW:
+                view = mInternalHeaderLayout;
                 break;
             case Card.CLICK_LISTENER_THUMBNAIL_VIEW:
-                view=mInternalThumbnailLayout;
+                view = mInternalThumbnailLayout;
                 break;
             case Card.CLICK_LISTENER_CONTENT_VIEW:
-                view=mInternalContentLayout;
+                view = mInternalContentLayout;
+                break;
+            case Card.CLICK_LISTENER_EXPAND_VIEW:
+                view = mInternalExpandLayout;
                 break;
             default:
                 break;
