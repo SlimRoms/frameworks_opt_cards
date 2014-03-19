@@ -86,6 +86,11 @@ public class CardGridArrayAdapter extends BaseCardArrayAdapter {
      */
     protected SwipeDismissListViewTouchListener mOnTouchListener;
 
+    /**
+     * List of cards represented in the ListView.
+     */
+    private List<Card> cards;
+
 
     // -------------------------------------------------------------
     // Constructors
@@ -99,6 +104,7 @@ public class CardGridArrayAdapter extends BaseCardArrayAdapter {
      */
     public CardGridArrayAdapter(Context context, List<Card> cards) {
         super(context, cards);
+        this.cards = cards;
     }
 
     // -------------------------------------------------------------
@@ -115,7 +121,7 @@ public class CardGridArrayAdapter extends BaseCardArrayAdapter {
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Retrieve card from items
-        mCard = (Card) getItem(position);
+        mCard = getItem(position);
         if (mCard != null) {
 
             int layout = mRowLayoutId;
@@ -163,6 +169,16 @@ public class CardGridArrayAdapter extends BaseCardArrayAdapter {
         }
 
         return view;
+    }
+
+    @Override
+    public int getCount() {
+        return cards.size();
+    }
+
+    @Override
+    public Card getItem(int pos){
+        return cards.get(pos);
     }
 
     /**
