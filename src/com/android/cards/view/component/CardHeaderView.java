@@ -423,7 +423,9 @@ public class CardHeaderView extends FrameLayout implements CardViewInterface {
                     }
                 });
             } else {
-                mImageButtonOverflow.setVisibility(GONE);
+                if (mCardHeader.getCustomOverflowAnimation()==null) {
+                    mImageButtonOverflow.setVisibility(GONE);
+                }
             }
 
         } else {
