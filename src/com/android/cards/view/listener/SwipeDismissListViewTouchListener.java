@@ -24,6 +24,7 @@ import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.SystemClock;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -39,6 +40,7 @@ import java.util.List;
 import com.android.cards.R;
 import com.android.cards.internal.Card;
 import com.android.cards.view.listener.dismiss.Dismissable;
+import com.android.cards.view.CardListView;
 
 /**
  * It is based on Roman Nurik code.
@@ -114,6 +116,11 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
 
     private int swipeDistanceDivisor = 2;
 
+    /*
+     * Custom gesture listener
+     */
+    protected ScaleGestureDetector mGestureDetector;
+
     /**
      * The callback interface used by {@link SwipeDismissListViewTouchListener} to inform its client
      * about a successful dismissal of one or more list item positions.
@@ -152,6 +159,9 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         mListView = listView;
         mCallbacks = callbacks;
         swipeDistanceDivisor =  listView.getContext().getResources().getInteger(R.integer.list_card_swipe_distance_divisor);
+        if (mListView instanceof CardListView) {
+            mGestureDetector = ((CardListView) mListView).getGestureDetector();
+        }
     }
 
     /**
@@ -190,6 +200,9 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (mViewWidth < 2) {
             mViewWidth = mListView.getWidth();
+        }
+        if (mGestureDetector != null) {
+            mGestureDetector.onTouchEvent(motionEvent);
         }
 
         switch (motionEvent.getActionMasked()) {

@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -81,6 +82,11 @@ public class CardListView extends ListView implements CardViewWrapper.OnExpandLi
      * Custom ScrollListener to be used with a CardListView and cards with swipe action
      */
     protected SwipeOnScrollListener mOnScrollListener;
+
+    /**
+     * Custom gesture listener to be used with a CardListView and cards with swipe action
+     */
+    protected ScaleGestureDetector mGestureDetector;
 
 
     //--------------------------------------------------------------------------
@@ -253,6 +259,20 @@ public class CardListView extends ListView implements CardViewWrapper.OnExpandLi
         super.setOnScrollListener( mOnScrollListener );
         if (mOnScrollListener instanceof SwipeOnScrollListener)
             this.mOnScrollListener = (SwipeOnScrollListener)mOnScrollListener;
+    }
+
+    /**
+     * Set external custom gesture detector
+     */
+    public void setGestureDetector(ScaleGestureDetector gestureDetector) {
+        this.mGestureDetector = gestureDetector;
+    }
+
+    /**
+     * Get external custom gesture detector
+     */
+    public ScaleGestureDetector getGestureDetector() {
+        return this.mGestureDetector;
     }
 
     //--------------------------------------------------------------------------
