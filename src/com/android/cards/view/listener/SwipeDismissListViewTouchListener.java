@@ -191,7 +191,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         if (mViewWidth < 2) {
             mViewWidth = mListView.getWidth();
         }
-        if (mGestureDetector != null) {
+        if (mGestureDetector != null && !mSwiping) {
             mGestureDetector.onTouchEvent(motionEvent);
         }
 
