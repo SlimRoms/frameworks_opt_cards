@@ -21,6 +21,7 @@
     <color name="card_background">#FFF</color>
     <color name="card_background_header">#FFF</color>
     <color name="card_backgroundExpand">#515254</color>
+    <color name="card_native_background">@android:color/transparent</color>
 
     <color name="card_text_color_header">#000</color>
     <color name="card_expand_title_color">#B3B2B2</color>
@@ -28,8 +29,23 @@
     <!-- Used by selector -->
     <color name="card_pressed">#7E0099CC</color>
     <color name="card_activated">#CFE9F3</color>
+    <color name="card_foreground_activated">#99CFE9F3</color>
 
     <color name="card_pressed_kitkat">#10000000</color>
     <color name="card_activated_kitkat">#ADE1F4</color>
+    <color name="card_foreground_activated_kitkat">#99ADE1F4</color>
+
+    <!-- Used by card with list -->
+    <color name="card_base_cardwithlist_divider_color">#E5E5E5</color>
+    <color name="card_base_cardwithlist_background_list_color">#10000000</color>
+
+    <color name="card_native_base_cardwithlist_divider_color">#E5E5E5</color>
+    <color name="card_native_base_cardwithlist_background_list_color">#10000000</color>
+
+    <!-- Used by sectioned list -->
+    <color name="card_section_container_color">#10000000</color>
+    <color name="card_section_title_color">@android:color/black</color>
+
+
 
 </resources>
