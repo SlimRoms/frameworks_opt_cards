@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
@@ -685,7 +686,7 @@ public class CardViewNative extends android.support.v7.widget.CardView implement
      * @param area
      * @return
      */
-    protected View decodeAreaOnClickListener(int area){
+    public View decodeAreaOnClickListener(int area) {
 
         if (area<Card.CLICK_LISTENER_ALL_VIEW && area>Card.CLICK_LISTENER_CONTENT_VIEW)
             return null;
@@ -1267,5 +1268,14 @@ public class CardViewNative extends android.support.v7.widget.CardView implement
      */
     public View getInternalMainCardLayout() {
         return mInternalMainCardLayout;
+    }
+
+    public ViewParent getCardParent() {
+        return getParent();
+    }
+
+    public View getCardView() {
+        View v = this;
+        return v;
     }
 }

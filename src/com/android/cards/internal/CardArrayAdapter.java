@@ -197,7 +197,7 @@ public class CardArrayAdapter extends BaseCardArrayAdapter implements UndoBarCon
      * @param card {@link Card}
      * @param cardView {@link com.android.cards.view.base.CardViewWrapper}
      */
-    protected void setupSwipeableAnimation(final Card card, CardView cardView) {
+    protected void setupSwipeableAnimation(final Card card, CardViewWrapper cardView) {
         HashMap<Integer, Card.OnLongCardClickListener> multipleOnLongClickListner =
                 card.getMultipleOnLongClickListener();
         if (card.isSwipeable()){
@@ -235,7 +235,7 @@ public class CardArrayAdapter extends BaseCardArrayAdapter implements UndoBarCon
         }
     }
 
-    private void setPartialOnTouchListeners(CardView cardView,
+    private void setPartialOnTouchListeners(CardViewWrapper cardView,
             SwipeDismissListViewTouchListener onTouchListener,
             HashMap<Integer, Card.OnLongCardClickListener> multipleOnLongClickListner) {
         if (multipleOnLongClickListner != null && !multipleOnLongClickListner.isEmpty()) {

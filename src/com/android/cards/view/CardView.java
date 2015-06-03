@@ -33,6 +33,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 
 import java.util.HashMap;
@@ -590,10 +591,10 @@ public class CardView extends BaseCardView implements CardViewWrapper {
                 }
 
                 @Override
-                public void onDismiss(CardView cardView, Card card) {
-                    final ViewGroup vg = (ViewGroup)(cardView.getParent());
+                public void onDismiss(CardViewWrapper cardView, Card card) {
+                    final ViewGroup vg = (ViewGroup)(cardView.getCardParent());
                     if (vg!=null){
-                        vg.removeView(cardView);
+                        vg.removeView(cardView.getCardView());
                         card.onSwipeCard();
                     }
                 }
@@ -1146,5 +1147,14 @@ public class CardView extends BaseCardView implements CardViewWrapper {
     @Override
     public void changeBackgroundColorResourceId(int colorResourceId) {
         //TODO : do nothing for now
+    }
+
+    public ViewParent getCardParent() {
+        return getParent();
+    }
+
+    public View getCardView() {
+        View v = this;
+        return v;
     }
 }

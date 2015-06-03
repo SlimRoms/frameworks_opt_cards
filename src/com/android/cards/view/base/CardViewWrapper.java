@@ -21,6 +21,7 @@ package com.android.cards.view.base;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewParent;
 
 import com.android.cards.internal.Card;
 import com.android.cards.view.component.CardThumbnailView;
@@ -159,4 +160,19 @@ public interface CardViewWrapper {
      * @return
      */
     View getInternalMainCardLayout();
+
+    /**
+     *
+     * @param area
+     * @return
+     */
+    public View decodeAreaOnClickListener(int area);
+
+    /**
+     *
+     * @return
+     */
+    public ViewParent getCardParent();
+
+    public View getCardView();
 }
