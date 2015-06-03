@@ -42,8 +42,8 @@
 
     <!-- Header -->
     <dimen name="card_header_default_padding">12dp</dimen>
-    <dimen name="card_header_native_default_paddingLeft">12dp</dimen>
-    <dimen name="card_header_native_default_paddingRight">12dp</dimen>
+    <dimen name="card_header_native_default_paddingStart">12dp</dimen>
+    <dimen name="card_header_native_default_paddingEnd">12dp</dimen>
     <dimen name="card_header_native_default_paddingTop">12dp</dimen>
     <dimen name="card_header_native_default_paddingBottom">0dp</dimen>
 
@@ -83,13 +83,13 @@
     <dimen name="card_content_outer_view_margin_bottom">0dp</dimen>
     <dimen name="card_content_outer_view_margin_end">0dp</dimen>
 
-    <dimen name="card_main_content_native_default_paddingLeft">12dp</dimen>
-    <dimen name="card_main_content_native_default_paddingRight">12dp</dimen>
+    <dimen name="card_main_content_native_default_paddingStart">12dp</dimen>
+    <dimen name="card_main_content_native_default_paddingEnd">12dp</dimen>
     <dimen name="card_main_content_native_default_paddingTop">12dp</dimen>
     <dimen name="card_main_content_native_default_paddingBottom">12dp</dimen>
 
-    <dimen name="card_main_content_native_cardwithlist_paddingLeft">0dp</dimen>
-    <dimen name="card_main_content_native_cardwithlist_paddingRight">0dp</dimen>
+    <dimen name="card_main_content_native_cardwithlist_paddingStart">0dp</dimen>
+    <dimen name="card_main_content_native_cardwithlist_paddingEnd">0dp</dimen>
     <dimen name="card_main_content_native_cardwithlist_paddingTop">12dp</dimen>
     <dimen name="card_main_content_native_cardwithlist_paddingBottom">12dp</dimen>
 
@@ -117,8 +117,8 @@
 
     <!-- Expand -->
     <dimen name="card_expand_layout_padding">2dp</dimen>
-    <dimen name="card_expand_simple_title_paddingLeft">10dp</dimen>
-    <dimen name="card_expand_simple_title_paddingRight">10dp</dimen>
+    <dimen name="card_expand_simple_title_paddingStart">10dp</dimen>
+    <dimen name="card_expand_simple_title_paddingEnd">10dp</dimen>
     <dimen name="card_expand_simple_title_text_size">14sp</dimen>
 
     <dimen name="card_expand_native_layout_padding_start">12dp</dimen>
