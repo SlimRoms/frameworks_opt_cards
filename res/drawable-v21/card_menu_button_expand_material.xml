@@ -28,6 +28,6 @@
         android:state_selected="true">
 
     </item>
-    <item android:drawable="@drawable/ic_expand_more_grey600_24dp"/>
+    <item android:drawable="@drawable/ic_expand_less_black_24dp"/>
 
 </selector>
