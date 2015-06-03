@@ -25,6 +25,6 @@
           android:state_focused="true"/>
     <item android:drawable="@drawable/ic_expand_more_black_24dp"
           android:state_selected="true"/>
-    <item android:drawable="@drawable/ic_expand_more_grey600_24dp"/>
+    <item android:drawable="@drawable/ic_expand_less_black_24dp"/>
 
 </selector>

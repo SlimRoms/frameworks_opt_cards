@@ -61,6 +61,7 @@
     <!-- Button to Expand/Collapse in Header -->
     <style name="card.header_button_base.expand">
         <item name="android:src">@drawable/card_menu_button_expand_material</item>
+        <item name="android:padding">4dp</item>
     </style>
 
     <style name="card.native.header_button_base.expand">
