@@ -22,12 +22,12 @@
 
     <item
         android:state_focused="true"
-        android:drawable="@drawable/ic_expand_more_black_24dp" />
+        android:drawable="@drawable/ic_expand_less_black_24dp" />
     <item
-        android:drawable="@drawable/ic_expand_more_black_24dp"
+        android:drawable="@drawable/ic_expand_less_black_24dp"
         android:state_selected="true">
 
     </item>
-    <item android:drawable="@drawable/ic_expand_less_black_24dp"/>
+    <item android:drawable="@drawable/ic_expand_more_black_24dp"/>
 
 </selector>
