@@ -33,7 +33,7 @@
     <FrameLayout
         android:id="@+id/card_header_inner_frame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 
     <!-- This is the Button Frame.
@@ -41,11 +41,10 @@
     <FrameLayout
         android:id="@+id/card_header_button_frame"
         style="@style/card.header_button_frame"
-        android:layout_centerInParent="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <!-- overflow button. It has a Popup Menu -->
         <ImageButton
