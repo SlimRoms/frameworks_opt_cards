@@ -454,6 +454,21 @@
         <item name="android:layout_marginBottom">@dimen/card_section_title_margin_top</item>
     </style>
 
+    <!--Recycler view-->
+    <style name="native_recyclerview_card">
+        <item name="android:layout_marginStart">@dimen/native_recyclerview_card_margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/native_recyclerview_card_margin_end</item>
+        <item name="android:layout_marginBottom">@dimen/native_recyclerview_card_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/native_recyclerview_card_margin_top</item>
+    </style>
 
+    <style name="native_recyclerview_card.base" >
+
+    </style>
+
+    <!-- Thumbnail list -->
+    <style name="native_recyclerview_card.thumbnail">
+
+    </style>
 
 </resources>
