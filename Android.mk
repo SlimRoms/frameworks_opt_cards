@@ -19,6 +19,9 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
         android-support-v4 \
         android-support-v7-cardview
 
+LOCAL_JAVA_LIBRARIES := \
+        android-support-v7-recyclerview
+
 LOCAL_MODULE := android-opt-cards
 
 LOCAL_SDK_VERSION := 21
