@@ -331,6 +331,16 @@ public class CardViewNative extends android.support.v7.widget.CardView implement
         buildUI();
     }
 
+    public void showOptions(int x, int y) {
+    }
+
+    public void hideOptions(int x, int y) {
+    }
+
+    public boolean isOptionsVisible() {
+        return false;
+    }
+
     /**
      * Refreshes the card content (it doesn't inflate layouts again)
      *

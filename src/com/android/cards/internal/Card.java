@@ -29,6 +29,7 @@ import java.util.HashMap;
 
 import com.android.cards.R;
 import com.android.cards.internal.base.BaseCard;
+import com.android.cards.view.CardView;
 
 /**
  * Main Card Model
@@ -1211,5 +1212,8 @@ public class Card extends BaseCard {
      */
     public int getBackgroundColorResourceId() {
         return mBackgroundColorResourceId;
+    }
+
+    public void setupOptionsItems(CardView cv) {
     }
 }
