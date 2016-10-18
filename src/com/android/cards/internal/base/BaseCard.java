@@ -228,4 +228,20 @@ public abstract class BaseCard implements CardUIInferface {
     public void setType(int type) {
         this.type = type;
     }
+
+    public void showOptions(int x, int y) {
+        if (mCardView != null) {
+            mCardView.showOptions(x, y);
+        }
+    }
+
+    public void hideOptions(int x, int y) {
+        if (mCardView != null) {
+            mCardView.hideOptions(x, y);
+        }
+    }
+
+    public boolean isOptionsVisible() {
+        return mCardView.isOptionsVisible();
+    }
 }

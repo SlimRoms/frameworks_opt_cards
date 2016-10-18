@@ -29,12 +29,18 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
+import android.view.animation.PathInterpolator;
+import android.widget.FrameLayout;
 
 import java.util.HashMap;
 
@@ -154,6 +160,8 @@ public class CardView extends BaseCardView implements CardViewWrapper {
      */
     protected View mInternalExpandInnerView;
 
+    private FrameLayout mRevealLayout;
+
 
     /** Animator to expand/collapse */
     protected Animator mExpandAnimator;
@@ -163,6 +171,9 @@ public class CardView extends BaseCardView implements CardViewWrapper {
      * It is used internally
      */
     protected OnExpandListAnimatorListener mOnExpandListAnimatorListener;
+
+    private boolean mOptionsShown = false;
+    private int mUpX, mUpY;
 
     //--------------------------------------------------------------------------
     // Constructor
@@ -310,6 +321,8 @@ public class CardView extends BaseCardView implements CardViewWrapper {
 
         super.retrieveLayoutIDs();
 
+        mRevealLayout = (FrameLayout) findViewById(R.id.card_reveal_layout);
+
         //Main Layout
         mInternalMainCardLayout = (View) findViewById(R.id.card_main_layout);
 
@@ -324,6 +337,65 @@ public class CardView extends BaseCardView implements CardViewWrapper {
 
         //Get ThumbnailLayout
         mInternalThumbnailLayout = (CardThumbnailView) findViewById(R.id.card_thumbnail_layout);
+    }
+
+    public void showOptions(int x, int y) {
+        mCard.setupOptionsItems(this);
+
+        final View options = findViewById(R.id.card_options);
+
+        if (x == -1 || y == -1) {
+            options.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        final double horz = Math.max(getWidth() - x, x);
+        final double vert = Math.max(getHeight() - y, y);
+        final float r = (float) Math.hypot(horz, vert);
+
+        final Animator a = ViewAnimationUtils.createCircularReveal(options, x, y, 0, r);
+        a.setDuration(700);
+        a.setInterpolator(new PathInterpolator(0f, 0f, 0.2f, 1f));
+        a.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mOptionsShown = true;
+            }
+        });
+        options.setVisibility(View.VISIBLE);
+        a.start();
+    }
+
+    public void hideOptions(int x, int y) {
+
+        final View options = findViewById(R.id.card_options);
+
+        if (x == -1 || y == -1) {
+            options.setVisibility(View.GONE);
+            return;
+        }
+
+        final double horz = Math.max(getWidth() - x, x);
+        final double vert = Math.max(getHeight() - y, y);
+        final float r = (float) Math.hypot(horz, vert);
+
+        final Animator a = ViewAnimationUtils.createCircularReveal(options, x, y, r, 0);
+        a.setDuration(700);
+        a.setInterpolator(new PathInterpolator(0f, 0f, 0.2f, 1f));
+        a.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mOptionsShown = false;
+                options.setVisibility(View.GONE);
+            }
+        });
+        a.start();
+    }
+
+    public boolean isOptionsVisible() {
+        return mOptionsShown;
     }
 
     /**
@@ -565,6 +637,31 @@ public class CardView extends BaseCardView implements CardViewWrapper {
         } else {
             this.setLongClickable(false);
         }
+
+        mRevealLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mUpX = (int) event.getRawX();
+                mUpY = (int) event.getRawY();
+                return false;
+            }
+        });
+        mRevealLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int[] temp = new int[2];
+                getLocationOnScreen(temp);
+                int x = mUpX - temp[0];
+                int y = mUpY - temp[1];
+                if (isOptionsVisible()) {
+                    hideOptions(x, y);
+                } else {
+                    showOptions(x, y);
+                }
+                return true;
+            }
+        });
+        addGlobalClickListener(mRevealLayout);
     }
 
     private void addGlobalClickListener(View view) {

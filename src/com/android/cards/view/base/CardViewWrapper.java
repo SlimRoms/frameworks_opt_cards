@@ -175,4 +175,10 @@ public interface CardViewWrapper {
     public ViewParent getCardParent();
 
     public View getCardView();
+
+    public void showOptions(int x, int y);
+
+    public void hideOptions(int x, int y);
+
+    public boolean isOptionsVisible();
 }
